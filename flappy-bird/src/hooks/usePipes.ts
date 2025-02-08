@@ -6,12 +6,18 @@ interface UsePipesProps {
   pipeHeightRange: [number, number];
 }
 
+interface Pipe {
+  x: number;
+  height: number;
+  passed?: boolean;
+}
+
 const usePipes = ({ pipeXStart, pipeDistance, pipeHeightRange }: UsePipesProps) => {
-  const [pipes, setPipes] = useState(() => [
-    { x: pipeXStart, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
-    { x: pipeXStart + pipeDistance, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
-    { x: pipeXStart + pipeDistance * 2, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
-    { x: pipeXStart + pipeDistance * 3, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
+  const [pipes, setPipes] = useState<Pipe[]>(() => [
+    { x: pipeXStart, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0], passed: false },
+    { x: pipeXStart + pipeDistance, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0], passed: false },
+    { x: pipeXStart + pipeDistance * 2, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0], passed: false },
+    { x: pipeXStart + pipeDistance * 3, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0], passed: false },
   ]);
 
   const updatePipes = useCallback(() => {
@@ -24,6 +30,7 @@ const usePipes = ({ pipeXStart, pipeDistance, pipeHeightRange }: UsePipesProps) 
             height: Math.floor(
               Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])
             ) + pipeHeightRange[0],
+            passed: false,
           };
         }
         return { ...pipe, x: newX };

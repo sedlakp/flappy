@@ -60,6 +60,10 @@ function useGameLoop({
 
           if (xOverlap && (yOverlapTop || yOverlapBottom)) {
             onEndGame(localScore);
+          } else if (birdX > pipe.x + pipeWidth && !pipe.passed) {
+            pipe.passed = true;
+            setLocalScore((prevScore: number) => prevScore + 1);
+            setScore(localScore + 1);
           }
         });
       }, 20);
