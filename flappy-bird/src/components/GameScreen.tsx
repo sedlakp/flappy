@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Bird from './Bird';
 import Pipe from './Pipe';
 import useGameLoop from '../hooks/useGameLoop';
