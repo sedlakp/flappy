@@ -1,4 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
+import usePipes from './usePipes';
+import useBird from './useBird';
 
 interface UseGameLoopProps {
   initialBirdY: number;
@@ -27,42 +29,19 @@ function useGameLoop({
   gapHeight,
   windowHeight,
 }: UseGameLoopProps) {
-  const [birdY, setBirdY] = useState(initialBirdY);
-  const [velocity, setVelocity] = useState(0);
-  const [pipes, setPipes] = useState(() => [
-    { x: pipeXStart, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
-    { x: pipeXStart + pipeDistance, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
-    { x: pipeXStart + pipeDistance * 2, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
-    { x: pipeXStart + pipeDistance * 3, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
-  ]);
-  const [localScore] = useState(0);
-  const jump = useCallback(() => {
-    setVelocity(jumpVelocity);
-    setBirdY((prevBirdY) => prevBirdY + jumpVelocity);
-  }, [jumpVelocity, setVelocity, setBirdY]);
+
+  const {pipes, updatePipes} = usePipes({pipeXStart,pipeDistance,pipeHeightRange})
+  const {birdY,setBirdY,velocity, jump, updateBird} = useBird({initialBirdY,gravity,jumpVelocity})
+  const [localScore, setLocalScore] = useState(0);
 
   useEffect(() => {
     let gameLoop: number | undefined;
 
     if (gameStarted) {
       gameLoop = setInterval(() => {
-        setVelocity((prevVelocity) => prevVelocity + gravity);
-        setBirdY((prevBirdY) => prevBirdY + velocity);
+        updateBird()
 
-        setPipes((prevPipes) =>
-          prevPipes.map((pipe) => {
-            const newX = pipe.x - 2;
-            if (newX < -50) {
-              return {
-                x: pipeXStart + pipeDistance * (prevPipes.length - 1), // Keep pipes evenly spaced
-                height: Math.floor(
-                  Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])
-                ) + pipeHeightRange[0],
-              };
-            }
-            return { ...pipe, x: newX };
-          })
-        );
+        updatePipes()
 
         //Collision detection
         const birdX = 100;
@@ -87,22 +66,7 @@ function useGameLoop({
     }
 
     return () => clearInterval(gameLoop);
-  }, [
-    birdY,
-    velocity,
-    onEndGame,
-    setScore,
-    localScore,
-    gameStarted,
-    gravity,
-    pipeXStart,
-    pipeHeightRange,
-    pipeDistance,
-    pipes,
-    jumpVelocity,
-    setBirdY,
-    setVelocity
-  ]);
+  }, [birdY, velocity, onEndGame, setScore, localScore, gameStarted, gravity, pipeXStart, pipeHeightRange, pipeDistance, pipes, jumpVelocity, setBirdY, windowHeight, gapHeight, setLocalScore, updateBird, updatePipes]);
 
   return { birdY, velocity, pipes, localScore, jump };
 }

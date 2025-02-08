@@ -45,7 +45,7 @@ function GameScreen({ onEndGame, setScore }: GameScreenProps) {
     <div
       className="flex flex-col items-center justify-center h-screen bg-sky-500 overflow-hidden"
     >
-      <div className="absolute top-0 left-0 text-2xl p-4">Score: {localScore}</div>
+      <div className="absolute top-0 left-0 text-2xl p-4 z-[999]">Score: {localScore}</div>
       
         <>
           <Bird birdY={birdY} />
@@ -61,7 +61,7 @@ function GameScreen({ onEndGame, setScore }: GameScreenProps) {
         </>
     
       <button
-        className="absolute bottom-0 mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="absolute bottom-0 mb-12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-8 px-8 rounded-full"
         onClick={handleJump}
       >
         Jump
