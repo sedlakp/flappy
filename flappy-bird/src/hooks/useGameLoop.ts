@@ -25,7 +25,7 @@ function useGameLoop({
   setScore,
   gameStarted,
   gapHeight,
-  windowHeight
+  windowHeight,
 }: UseGameLoopProps) {
   const [birdY, setBirdY] = useState(initialBirdY);
   const [velocity, setVelocity] = useState(0);
@@ -76,8 +76,8 @@ function useGameLoop({
         pipes.forEach((pipe) => {
           const pipeWidth = 50;
           const xOverlap = birdX < pipe.x + pipeWidth && birdX + birdWidth > pipe.x;
-          const yOverlapTop = birdY < pipe.height && birdY + birdHeight > 0;
-          const yOverlapBottom = birdY + birdHeight > pipe.height + gapHeight && birdY < 400;
+          const yOverlapTop = birdY < pipe.height;
+          const yOverlapBottom = birdY + birdHeight > pipe.height + gapHeight;
 
           if (xOverlap && (yOverlapTop || yOverlapBottom)) {
             onEndGame(localScore);
