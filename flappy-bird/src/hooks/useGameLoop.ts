@@ -28,6 +28,8 @@ function useGameLoop({
   const [pipes, setPipes] = useState(() => [
     { x: pipeXStart, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
     { x: pipeXStart + pipeDistance, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
+    { x: pipeXStart + pipeDistance * 2, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
+    { x: pipeXStart + pipeDistance * 3, height: Math.floor(Math.random() * (pipeHeightRange[1] - pipeHeightRange[0])) + pipeHeightRange[0] },
   ]);
   const [localScore] = useState(0);
   const jump = useCallback(() => {
@@ -58,19 +60,19 @@ function useGameLoop({
           })
         );
 
-        if (birdY > 400 || birdY < 0) {
-          onEndGame(localScore);
-        }
+        // if (birdY > 400 || birdY < 0) {
+        //   onEndGame(localScore);
+        // }
 
         //Collision detection
-        const birdX = 100;
-        pipes.forEach((pipe) => {
-          if (pipe.x < birdX + 32 && pipe.x + 50 > birdX) {
-            if (birdY < pipe.height || birdY + 32 > pipe.height + 100) {
-              onEndGame(localScore);
-            }
-          }
-        });
+        // const birdX = 100;
+        // pipes.forEach((pipe) => {
+        //   if (pipe.x < birdX + 32 && pipe.x + 50 > birdX) {
+        //     if (birdY < pipe.height || birdY + 32 > pipe.height + 100) {
+        //       onEndGame(localScore);
+        //     }
+        //   }
+        // });
       }, 20);
     }
 
