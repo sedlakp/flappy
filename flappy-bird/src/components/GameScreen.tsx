@@ -9,14 +9,14 @@ interface GameScreenProps {
 }
 
 function GameScreen({ onEndGame, setScore }: GameScreenProps) {
-  const initialBirdY = 200;
-  const gravity = 0.5;
+  const initialBirdY = 350;
+  const gravity = 0.9;
   const jumpVelocity = -10;
   const pipeXStart = 300;
   const pipeDistance = 200;
   const pipeHeightRange: [number, number] = [100, 300];
-  const windowHeight = 400;
-  const gapHeight = 150;
+  const windowHeight = 700;
+  const gapHeight = 350;
 
   const [gameStarted, setGameStarted] = useState(false);
 
@@ -30,6 +30,8 @@ function GameScreen({ onEndGame, setScore }: GameScreenProps) {
     onEndGame,
     setScore,
     gameStarted,
+    gapHeight,
+    windowHeight
   });
 
   const handleJump = () => {

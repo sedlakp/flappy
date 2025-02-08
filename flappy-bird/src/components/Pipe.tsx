@@ -8,6 +8,7 @@ interface PipeProps {
 }
 
 function Pipe({ pipeHeight, pipeX, windowHeight, gapHeight }: PipeProps) {
+  const bottomPipeHeight = windowHeight - pipeHeight - gapHeight;
   return (
     <>
       <div
@@ -25,7 +26,7 @@ function Pipe({ pipeHeight, pipeX, windowHeight, gapHeight }: PipeProps) {
           left: pipeX,
           top: pipeHeight + gapHeight,
           width: 50,
-          height: windowHeight - pipeHeight - gapHeight,
+          height: bottomPipeHeight,
         }}
       />
     </>

@@ -10,6 +10,8 @@ interface UseGameLoopProps {
   onEndGame: (score: number) => void;
   setScore: (score: number) => void;
   gameStarted: boolean;
+  gapHeight: number
+  windowHeight: number
 }
 
 function useGameLoop({
@@ -22,6 +24,8 @@ function useGameLoop({
   onEndGame,
   setScore,
   gameStarted,
+  gapHeight,
+  windowHeight
 }: UseGameLoopProps) {
   const [birdY, setBirdY] = useState(initialBirdY);
   const [velocity, setVelocity] = useState(0);
@@ -60,24 +64,20 @@ function useGameLoop({
           })
         );
 
-        // if (birdY > 400 || birdY < 0) {
-        //   onEndGame(localScore);
-        // }
-
         //Collision detection
         const birdX = 100;
         const birdWidth = 32;
         const birdHeight = 32;
 
-        if (birdY > 400 || birdY < 0) {
+        if (birdY > windowHeight || birdY < 0) {
           onEndGame(localScore);
         }
 
         pipes.forEach((pipe) => {
           const pipeWidth = 50;
           const xOverlap = birdX < pipe.x + pipeWidth && birdX + birdWidth > pipe.x;
-          const yOverlapTop = birdY < pipe.height;
-          const yOverlapBottom = birdY + birdHeight > pipe.height + 100;
+          const yOverlapTop = birdY < pipe.height && birdY + birdHeight > 0;
+          const yOverlapBottom = birdY + birdHeight > pipe.height + gapHeight && birdY < 400;
 
           if (xOverlap && (yOverlapTop || yOverlapBottom)) {
             onEndGame(localScore);
